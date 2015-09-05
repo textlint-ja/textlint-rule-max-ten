@@ -1,0 +1,40 @@
+{
+  "name": "textlint-rule-max-ten",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azu/textlint-rule-max-ten.git"
+  },
+  "author": "azu",
+  "email": "azuciao@gmail.com",
+  "homepage": "https://github.com/azu/textlint-rule-max-ten",
+  "keywords": [
+    "textlint",
+    "japanese"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azu/textlint-rule-max-ten/issues"
+  },
+  "version": "1.0.0",
+  "description": "textlint rule that limit maxinum ten(、) count of sentence.",
+  "main": "lib/max-ten.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib --source-maps",
+    "watch": "babel src --out-dir lib --watch --source-maps",
+    "prepublish": "npm run --if-present build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "espower-babel": "^3.3.0",
+    "mocha": "^2.3.0",
+    "power-assert": "^1.0.0",
+    "textlint": "^3.2.0"
+  },
+  "dependencies": {
+    "textlint-rule-helper": "^1.1.3"
+  }
+}
