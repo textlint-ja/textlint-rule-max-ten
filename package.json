@@ -18,6 +18,10 @@
   "version": "1.0.0",
   "description": "textlint rule that limit maxinum ten(、) count of sentence.",
   "main": "lib/max-ten.js",
+  "files": [
+    "src",
+    "lib"
+  ],
   "directories": {
     "test": "test"
   },
