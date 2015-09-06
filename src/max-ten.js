@@ -9,7 +9,7 @@ function countTen(text) {
  */
 export default function (context) {
     var maxLen = 3;
-    const punctuation = /。./;
+    const punctuation = /[。.]/;
     let helper = new RuleHelper(context);
     let {Syntax, RuleError, report, getSource} = context;
     var currentParagraphText = "";

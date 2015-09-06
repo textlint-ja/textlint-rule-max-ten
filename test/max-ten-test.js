@@ -11,11 +11,17 @@ describe("max-ten", function () {
     afterEach(function () {
         textlint.resetRules();
     });
-    it("should lint wrong tech words", function () {
-        var filePath = path.join(__dirname, "/fixtures/README.md");
+    it("should report error", function () {
+        var filePath = path.join(__dirname, "/fixtures/error.md");
         var result = textlint.lintFile(filePath);
         assert(result.filePath === filePath);
         assert(result.messages.length > 0);
         assert.equal(result.messages[0].ruleId, "max-ten");
+    });
+    it("should not report error", function () {
+        var filePath = path.join(__dirname, "/fixtures/pass.md");
+        var result = textlint.lintFile(filePath);
+        assert(result.filePath === filePath);
+        assert(result.messages.length === 0);
     });
 });
