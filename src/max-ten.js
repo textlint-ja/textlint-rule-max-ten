@@ -1,14 +1,17 @@
 // LICENSE : MIT
 "use strict";
 import {RuleHelper} from "textlint-rule-helper"
+
+const defaultOptions = {max: 3};
 function countTen(text) {
     return text.split("、").length - 1;
 }
 /**
  * @param {RuleContext} context
+ * @param {object} options
  */
-export default function (context) {
-    var maxLen = 3;
+export default function (context, options = defaultOptions) {
+    var maxLen = options.max;
     const punctuation = /[。.]/;
     let helper = new RuleHelper(context);
     let {Syntax, RuleError, report, getSource} = context;
