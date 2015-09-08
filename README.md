@@ -1,6 +1,6 @@
 # textlint-rule-max-ten [![Build Status](https://travis-ci.org/azu/textlint-rule-max-ten.svg?branch=master)](https://travis-ci.org/azu/textlint-rule-max-ten)
 
-[textlint](https://github.com/azu/textlint "textlint") rule is that limit maxinum ten(、) count of sentence.
+[textlint](https://github.com/azu/textlint "textlint") rule is that limit maximum ten(、) count of sentence.
 
 ## Installation
 
@@ -11,6 +11,22 @@
     $ npm install textlint textlint-rule-max-ten
     $ textlint --rule max-ten README.md
     #    11:0  error  一つの文で"、"を3つ以上使用しています  max-ten
+
+## Configure
+
+Configure the maximum number of "、" allowed in a sentence. The default is `3`
+
+Configure `"max"` value of the `.textlintrc` file.
+
+```json
+{
+  "rules": {
+    "max-ten": {
+        "max" : 3
+    }
+  }
+}
+```
 
 ## Tests
 
