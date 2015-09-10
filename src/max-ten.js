@@ -1,7 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import {RuleHelper} from "textlint-rule-helper"
-
+import ObjectAssign from "object-assign"
 const defaultOptions = {max: 3};
 function countTen(text) {
     return text.split("、").length - 1;
@@ -10,7 +10,8 @@ function countTen(text) {
  * @param {RuleContext} context
  * @param {object} options
  */
-export default function (context, options = defaultOptions) {
+export default function (context, options = {}) {
+    options = ObjectAssign({}, defaultOptions, options);
     var maxLen = options.max;
     const punctuation = /[。.]/;
     let helper = new RuleHelper(context);
