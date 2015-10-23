@@ -12,11 +12,11 @@ function countTen(text) {
  */
 export default function (context, options = {}) {
     options = ObjectAssign({}, defaultOptions, options);
-    var maxLen = options.max;
+    const maxLen = options.max;
     const punctuation = /[。]/;
     let helper = new RuleHelper(context);
     let {Syntax, RuleError, report, getSource} = context;
-    var currentParagraphTexts = [];
+    let currentParagraphTexts = [];
     return {
         [Syntax.Paragraph](){
             currentParagraphTexts = []
@@ -28,16 +28,37 @@ export default function (context, options = {}) {
             }
             currentParagraphTexts.push(node);
         },
-        [Syntax.Paragraph + ":exit"](){
-            currentParagraphTexts.forEach(node => {
-                var currentParagraphText = getSource(node);
-                var sentences = currentParagraphText.split(punctuation);
-                sentences.forEach(sentence => {
-                    if (countTen(sentence) >= maxLen) {
-                        var ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`);
-                        report(node, ruleError);
-                    }
-                });
+        [Syntax.Paragraph + ":exit"](pNode){
+            let currentTenCount = 0;
+            let text = currentParagraphTexts.map(strNode => getSource(strNode)).join("\n");
+            let characters = text.split("");// ["t","e","x","t"]
+
+            let paddingLine = 0;
+            let paddingColumn = 0;
+            characters.forEach(char => {
+                if (char === "、") {
+                    currentTenCount++;
+                }
+                if (char === "。") {
+                    // reset
+                    currentTenCount = 0;
+                }
+                // report
+                if (currentTenCount >= maxLen) {
+                    var ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`, {
+                        line: paddingLine,
+                        column: paddingColumn
+                    });
+                    report(pNode, ruleError);
+                    currentTenCount = 0;
+                }
+                // calc padding{line,column}
+                if (char === "\n") {
+                    paddingLine++;
+                    paddingColumn = 0;
+                } else {
+                    paddingColumn++;
+                }
             });
         }
     }

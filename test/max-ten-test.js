@@ -24,6 +24,18 @@ tester.run("max-ten", rule, {
     ],
     invalid: [
         {
+            text: `a、b、       c
+、d`
+            ,
+            errors: [
+                {
+                    message: `一つの文で"、"を3つ以上使用しています`,
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
             text: textIncludeTen(5),
             options: {
                 "max": 5
@@ -35,14 +47,15 @@ tester.run("max-ten", rule, {
             ]
         },
         {
-            text: `これは、長文で、
-行を分けたときにも、カウントされてるかをテスト、しています。`,
+            text: `これは、長文、columnがちゃんと計算、されてるはずです。`,
             options: {
                 "max": 3
             },
             errors: [
                 {
-                    message: `一つの文で"、"を3つ以上使用しています`
+                    message: `一つの文で"、"を3つ以上使用しています`,
+                    line: 1,
+                    column: 21
                 }
             ]
         }
