@@ -13,28 +13,31 @@ function countTen(text) {
 export default function (context, options = {}) {
     options = ObjectAssign({}, defaultOptions, options);
     var maxLen = options.max;
-    const punctuation = /[。.]/;
+    const punctuation = /[。]/;
     let helper = new RuleHelper(context);
     let {Syntax, RuleError, report, getSource} = context;
-    var currentParagraphText = "";
+    var currentParagraphTexts = [];
     return {
         [Syntax.Paragraph](){
-            currentParagraphText = ""
+            currentParagraphTexts = []
         },
         [Syntax.Str](node){
             // ignore text from external factor
             if (helper.isChildNode(node, [Syntax.Link, Syntax.Image, Syntax.BlockQuote])) {
                 return;
             }
-            currentParagraphText += getSource(node);
+            currentParagraphTexts.push(node);
         },
-        [Syntax.Paragraph + ":exit"](node){
-            var sentences = currentParagraphText.split(punctuation);
-            sentences.forEach(sentence => {
-                if (countTen(sentence) >= maxLen) {
-                    var ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`);
-                    report(node, ruleError);
-                }
+        [Syntax.Paragraph + ":exit"](){
+            currentParagraphTexts.forEach(node => {
+                var currentParagraphText = getSource(node);
+                var sentences = currentParagraphText.split(punctuation);
+                sentences.forEach(sentence => {
+                    if (countTen(sentence) >= maxLen) {
+                        var ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`);
+                        report(node, ruleError);
+                    }
+                });
             });
         }
     }
