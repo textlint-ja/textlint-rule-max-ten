@@ -58,6 +58,19 @@ tester.run("max-ten", rule, {
                     column: 21
                 }
             ]
+        },
+        {
+            text: "間に、Str以外の`code`Nodeが、あっても、OK",
+            options: {
+                "max": 3
+            },
+            errors: [
+                {
+                    message: `一つの文で"、"を3つ以上使用しています`,
+                    line: 1,
+                    column: 26
+                }
+            ]
         }
     ]
 });
