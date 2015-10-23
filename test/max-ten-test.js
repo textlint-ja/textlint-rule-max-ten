@@ -1,6 +1,6 @@
 import rule from "../src/max-ten"
 function textIncludeTen(count) {
-    return (new Array(count)).join("テスト、") + "です";
+    return (new Array(count + 1)).join("テスト、") + "です";
 }
 var TextLintTester = require("textlint-tester");
 var tester = new TextLintTester();
@@ -9,10 +9,10 @@ tester.run("max-ten", rule, {
     // default max:3
     valid: [
         {
-            text: "テキスト、テキスト、テキスト。\nテキスト、テキスト、テキスト。"
+            text: textIncludeTen(3 - 1)
         },
         {
-            text: "a、b、c、d、です。",
+            text: textIncludeTen(5 - 1),
             options: {
                 "max": 5
             }
@@ -24,7 +24,7 @@ tester.run("max-ten", rule, {
     ],
     invalid: [
         {
-            text: "a、b、c、d、e、fです。",
+            text: textIncludeTen(5),
             options: {
                 "max": 5
             },
