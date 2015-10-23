@@ -28,37 +28,44 @@ export default function (context, options = {}) {
             }
             currentParagraphTexts.push(node);
         },
-        [Syntax.Paragraph + ":exit"](pNode){
+        [Syntax.Paragraph + ":exit"](){
             let currentTenCount = 0;
-            let text = currentParagraphTexts.map(strNode => getSource(strNode)).join("\n");
-            let characters = text.split("");// ["t","e","x","t"]
-
-            let paddingLine = 0;
-            let paddingColumn = 0;
-            characters.forEach(char => {
-                if (char === "、") {
-                    currentTenCount++;
-                }
-                if (char === "。") {
-                    // reset
-                    currentTenCount = 0;
-                }
-                // report
-                if (currentTenCount >= maxLen) {
-                    var ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`, {
-                        line: paddingLine,
-                        column: paddingColumn
-                    });
-                    report(pNode, ruleError);
-                    currentTenCount = 0;
-                }
-                // calc padding{line,column}
-                if (char === "\n") {
-                    paddingLine++;
-                    paddingColumn = 0;
-                } else {
-                    paddingColumn++;
-                }
+            /*
+            <p>
+            <str><code><img><str>
+            <str>
+            </p>
+             */
+            currentParagraphTexts.forEach(strNode => {
+                let paddingLine = 0;
+                let paddingColumn = 0;
+                let text = getSource(strNode);
+                let characters = text.split("");
+                characters.forEach(char => {
+                    if (char === "、") {
+                        currentTenCount++;
+                    }
+                    if (char === "。") {
+                        // reset
+                        currentTenCount = 0;
+                    }
+                    // report
+                    if (currentTenCount >= maxLen) {
+                        var ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`, {
+                            line: paddingLine,
+                            column: paddingColumn
+                        });
+                        report(strNode, ruleError);
+                        currentTenCount = 0;
+                    }
+                    // calc padding{line,column}
+                    if (char === "\n") {
+                        paddingLine++;
+                        paddingColumn = 0;
+                    } else {
+                        paddingColumn++;
+                    }
+                });
             });
         }
     }
