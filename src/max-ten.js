@@ -4,7 +4,10 @@ import {RuleHelper} from "textlint-rule-helper"
 import {getTokenizer} from "kuromojin";
 import splitSentences from "sentence-splitter";
 import Source from "structured-source";
-const defaultOptions = {max: 3};
+const defaultOptions = {
+    max: 3, // 1文に利用できる最大の、の数
+    strict: false // 例外ルールを適応するかどうか
+};
 
 function isSandwichedMeishi({
     before,
@@ -22,6 +25,7 @@ function isSandwichedMeishi({
  */
 export default function (context, options = {}) {
     const maxLen = options.max || defaultOptions.max;
+    const isStrict = options.strict || defaultOptions.strict;
     let helper = new RuleHelper(context);
     let {Syntax, RuleError, report, getSource} = context;
     return {
@@ -55,7 +59,8 @@ export default function (context, options = {}) {
                                 token: token,
                                 after: tokens[index + 1]
                             });
-                            if (isSandwiched) {
+                            // strictなら例外を例外としない
+                            if (!isStrict && isSandwiched) {
                                 return;
                             }
                             currentTenCount++;
