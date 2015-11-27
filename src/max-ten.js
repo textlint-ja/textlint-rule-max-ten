@@ -1,7 +1,6 @@
 // LICENSE : MIT
 "use strict";
 import {RuleHelper} from "textlint-rule-helper"
-import ObjectAssign from "object-assign"
 import {getTokenizer} from "kuromojin";
 import splitSentences from "sentence-splitter";
 import Source from "structured-source";
@@ -22,8 +21,7 @@ function isSandwichedMeishi({
  * @param {object} options
  */
 export default function (context, options = {}) {
-    options = ObjectAssign({}, defaultOptions, options);
-    const maxLen = options.max;
+    const maxLen = options.max || defaultOptions.max;
     let helper = new RuleHelper(context);
     let {Syntax, RuleError, report, getSource} = context;
     return {

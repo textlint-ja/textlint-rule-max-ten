@@ -9,6 +9,7 @@ tester.run("max-ten", rule, {
     // default max:3
     valid: [
         "名詞、名詞、名詞、名詞の場合は例外",
+        "ビスケットの主な材料は(1)小麦粉、(2)牛乳、(3)ショートニング、(4)バター、(5)砂糖である。",
         {
             text: textIncludeTen(3 - 1)
         },
