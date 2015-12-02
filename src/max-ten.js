@@ -43,6 +43,12 @@ export default function (context, options = {}) {
             <str>
             </p>
              */
+            /*
+            # workflow
+            1. split text to sentences
+            2. sentence to tokens
+            3. check tokens
+             */
             return getTokenizer().then(tokenizer => {
                 sentences.forEach(sentence => {
                     let text = sentence.value;
