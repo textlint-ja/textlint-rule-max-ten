@@ -1,6 +1,6 @@
 import rule from "../src/max-ten"
 function textIncludeTen(count) {
-    return (new Array(count + 1)).join("テスト、") + "です";
+    return (new Array(count + 1)).join("テスト文章において、") + "です";
 }
 var TextLintTester = require("textlint-tester");
 var tester = new TextLintTester();
@@ -8,6 +8,9 @@ var tester = new TextLintTester();
 tester.run("max-ten", rule, {
     // default max:3
     valid: [
+        "名詞、名詞、名詞、名詞の場合は例外",
+        "ビスケットの主な材料は(1)小麦粉、(2)牛乳、(3)ショートニング、(4)バター、(5)砂糖である。",
+        "これは、TaskA、TaskB、TaskC、TaskDが処理するものです。",
         {
             text: textIncludeTen(3 - 1)
         },
@@ -24,7 +27,7 @@ tester.run("max-ten", rule, {
     ],
     invalid: [
         {
-            text: `a、b、       c
+            text: `これは、これは、これは
 、d`
             ,
             errors: [
@@ -47,7 +50,7 @@ tester.run("max-ten", rule, {
             ]
         },
         {
-            text: `これは、長文、columnがちゃんと計算、されてるはずです。`,
+            text: `これは、長文の例ですが、columnがちゃんと計算、されてるはずです。`,
             options: {
                 "max": 3
             },
@@ -55,7 +58,7 @@ tester.run("max-ten", rule, {
                 {
                     message: `一つの文で"、"を3つ以上使用しています`,
                     line: 1,
-                    column: 21
+                    column: 26
                 }
             ]
         },

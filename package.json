@@ -36,11 +36,13 @@
     "espower-babel": "^3.3.0",
     "mocha": "^2.3.0",
     "power-assert": "^1.0.0",
-    "textlint": "^3.2.0",
-    "textlint-tester": "^0.2.0"
+    "textlint": "^5.0.3",
+    "textlint-tester": "^0.4.1"
   },
   "dependencies": {
-    "object-assign": "^4.0.1",
+    "kuromojin": "^1.0.2",
+    "sentence-splitter": "^1.2.0",
+    "structured-source": "^3.0.2",
     "textlint-rule-helper": "^1.1.3"
   }
 }
