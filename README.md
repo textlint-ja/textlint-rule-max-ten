@@ -1,6 +1,6 @@
 # textlint-rule-max-ten [![Build Status](https://travis-ci.org/azu/textlint-rule-max-ten.svg?branch=master)](https://travis-ci.org/azu/textlint-rule-max-ten)
 
-[textlint](https://github.com/azu/textlint "textlint") rule is that limit maximum ten(、) count of sentence.
+[textlint](https://github.com/textlint/textlint "textlint") rule is that limit maximum ten(、) count of sentence.
 
 ## Installation
 
@@ -22,24 +22,11 @@ Configure `"max"` value of the `.textlintrc` file.
 {
   "rules": {
     "max-ten": {
-        // 1文で利用できる"、"の最大数
         "max" : 3
     }
   }
 }
 ```
-
-## Example
-
-> これは、長文の例ですが、読点の数が3つ以上あるので、エラーが報告されます。
-
-=> error  一つの文で"、"を3つ以上使用しています
-
-> ビスケットの主な材料は(1)小麦粉、(2)牛乳、(3)ショートニング、(4)バター、(5)砂糖である。
-
--  No error: 名詞同士で囲まれている `、` はカウントされない
-- 設定で `{ strict: true }` とした場合はこの例外は適応されずエラーとします
-
 
 ## Tests
 
