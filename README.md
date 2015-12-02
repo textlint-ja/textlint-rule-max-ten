@@ -22,6 +22,7 @@ Configure `"max"` value of the `.textlintrc` file.
 {
   "rules": {
     "max-ten": {
+        // 1文で利用できる"、"の最大数
         "max" : 3
     }
   }
@@ -36,7 +37,9 @@ Configure `"max"` value of the `.textlintrc` file.
 
 > ビスケットの主な材料は(1)小麦粉、(2)牛乳、(3)ショートニング、(4)バター、(5)砂糖である。
 
-=> No error: 名詞同士で囲まれている `、` はカウントされない
+-  No error: 名詞同士で囲まれている `、` はカウントされない
+- 設定で `{ strict: true }` とした場合はこの例外は適応されずエラーとします
+
 
 ## Tests
 
