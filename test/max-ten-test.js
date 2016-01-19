@@ -74,6 +74,32 @@ tester.run("max-ten", rule, {
                     column: 26
                 }
             ]
+        },
+        {
+            text: `複数のセンテンスがある場合。これでも、columnが、ちゃんと計算、されているはずです。`,
+            options: {
+                "max": 3
+            },
+            errors: [
+                {
+                    message: `一つの文で"、"を3つ以上使用しています`,
+                    line: 1,
+                    column: 34
+                }
+            ]
+        },
+        {
+            text: `複数のセンテンスがあって、改行されている場合でも\n大丈夫です。これでも、lineとcolumnが、ちゃんと計算、されているはずです。`,
+            options: {
+                "max": 3
+            },
+            errors: [
+                {
+                    message: `一つの文で"、"を3つ以上使用しています`,
+                    line: 2,
+                    column: 31
+                }
+            ]
         }
     ]
 });
