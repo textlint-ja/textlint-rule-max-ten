@@ -20,6 +20,20 @@ function isSandwichedMeishi({
     return before.pos === "名詞" && after.pos === "名詞";
 }
 /**
+ * add two positions.
+ * note: line starts with 1, column starts with 0.
+ * @param {Position} base
+ * @param {Position} relative
+ * @return {Position}
+ */
+function addPositions(base, relative) {
+    return {
+        line: base.line + relative.line - 1, // line 1 + line 1 should be line 1
+        column: relative.line == 1 ? base.column + relative.column // when the same line
+                                   : relative.column               // when another line
+    };
+}
+/**
  * @param {RuleContext} context
  * @param {object} options
  */
@@ -78,10 +92,11 @@ export default function (context, options = {}) {
                         }
                         // report
                         if (currentTenCount >= maxLen) {
-                            let position = source.indexToPosition(lastToken.word_position - 1);
+                            let positionInSentence = source.indexToPosition(lastToken.word_position - 1);
+                            let positionInNode = addPositions(sentence.loc.start, positionInSentence);
                             let ruleError = new context.RuleError(`一つの文で"、"を${maxLen}つ以上使用しています`, {
-                                line: position.line - 1,
-                                column: position.column
+                                line: positionInNode.line - 1,
+                                column: positionInNode.column
                             });
                             report(node, ruleError);
                             currentTenCount = 0;
