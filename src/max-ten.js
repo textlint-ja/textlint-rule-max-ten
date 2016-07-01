@@ -13,7 +13,7 @@ function isSandwichedMeishi({
     before,
     token,
     after
-    }) {
+}) {
     if (before === undefined || after === undefined || token === undefined) {
         return false;
     }
@@ -30,12 +30,12 @@ function addPositions(base, relative) {
     return {
         line: base.line + relative.line - 1, // line 1 + line 1 should be line 1
         column: relative.line == 1 ? base.column + relative.column // when the same line
-                                   : relative.column               // when another line
+            : relative.column               // when another line
     };
 }
 /**
  * @param {RuleContext} context
- * @param {object} options
+ * @param {object} [options]
  */
 export default function (context, options = {}) {
     const maxLen = options.max || defaultOptions.max;
@@ -52,16 +52,16 @@ export default function (context, options = {}) {
                 newLineCharacters: "\n\n"
             });
             /*
-            <p>
-            <str><code><img><str>
-            <str>
-            </p>
+             <p>
+             <str><code><img><str>
+             <str>
+             </p>
              */
             /*
-            # workflow
-            1. split text to sentences
-            2. sentence to tokens
-            3. check tokens
+             # workflow
+             1. split text to sentences
+             2. sentence to tokens
+             3. check tokens
              */
             return getTokenizer().then(tokenizer => {
                 sentences.forEach(sentence => {

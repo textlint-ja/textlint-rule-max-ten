@@ -1,6 +1,11 @@
-# textlint-rule-max-ten [![Build Status](https://travis-ci.org/azu/textlint-rule-max-ten.svg?branch=master)](https://travis-ci.org/azu/textlint-rule-max-ten)
+# textlint-rule-max-ten [![Build Status](https://travis-ci.org/textlint-ja/textlint-rule-max-ten.svg?branch=master)](https://travis-ci.org/textlint-ja/textlint-rule-max-ten)
 
 [textlint](https://github.com/textlint/textlint "textlint") rule is that limit maximum ten(、) count of sentence.
+
+一文に利用できる`、`の数を制限する[textlint](https://github.com/textlint/textlint "textlint")ルール
+
+一文の読点の数が多いと冗長で読みにくい文章となるため、読点の数を一定数以下にするためのルールです。
+読点の数を減らすためには、句点(。)で文を区切ってく必要があります。
 
 ## Installation
 
@@ -12,11 +17,11 @@
     $ textlint --rule max-ten README.md
     #    11:0  error  一つの文で"、"を3つ以上使用しています  max-ten
 
-## Configure
+## Setting
 
-Configure the maximum number of "、" allowed in a sentence. The default is `3`
-
-Configure `"max"` value of the `.textlintrc` file.
+- `max`: number
+    - デフォルト: 3
+    - 一文に許可される読点の数
 
 ```json
 {
@@ -27,6 +32,11 @@ Configure `"max"` value of the `.textlintrc` file.
   }
 }
 ```
+
+## 例外
+
+`<名詞>`、`<名詞>` のように名詞に挟まれた読点はカウントしません。
+箇条書きとしての区切り文字として使われているため無視します。
 
 ## Tests
 
