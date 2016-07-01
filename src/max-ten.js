@@ -2,7 +2,7 @@
 "use strict";
 import {RuleHelper} from "textlint-rule-helper"
 import {getTokenizer} from "kuromojin";
-import splitSentences from "sentence-splitter";
+import {split as splitSentences} from "sentence-splitter";
 import Source from "structured-source";
 const defaultOptions = {
     max: 3, // 1文に利用できる最大の、の数

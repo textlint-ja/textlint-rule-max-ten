@@ -29,7 +29,7 @@
     "build": "NODE_ENV=production babel src --out-dir lib --source-maps",
     "watch": "babel src --out-dir lib --watch --source-maps",
     "prepublish": "npm run --if-present build",
-    "test": "mocha"
+    "test": "mocha && npm run build && textlint --rulesdir lib/ README.md"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -39,13 +39,13 @@
     "babel-register": "^6.9.0",
     "mocha": "^2.3.0",
     "power-assert": "^1.4.1",
-    "textlint": "^5.0.3",
-    "textlint-tester": "^0.4.1"
+    "textlint": "^7.0.1",
+    "textlint-tester": "^2.0.0"
   },
   "dependencies": {
     "kuromojin": "^1.0.2",
-    "sentence-splitter": "^1.2.0",
+    "sentence-splitter": "^2.0.0",
     "structured-source": "^3.0.2",
-    "textlint-rule-helper": "^1.1.3"
+    "textlint-rule-helper": "^2.0.0"
   }
 }
