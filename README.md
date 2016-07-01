@@ -1,4 +1,4 @@
-# textlint-rule-max-ten [![Build Status](https://travis-ci.org/textlint-ja/textlint-rule-max-ten.svg?branch=master)](https://travis-ci.org/textlint-ja/textlint-rule-max-ten)
+# textlint-rule-max-ten [![Build Status](https://travis-ci.org/textlint-ja/textlint-rule-max-ten.svg?branch=master)](https://travis-ci.org/textlint-ja/textlint-rule-max-ten) [![Gitter](https://badges.gitter.im/textlint-ja/textlint-ja.svg)](https://gitter.im/textlint-ja/textlint-ja)
 
 [textlint](https://github.com/textlint/textlint "textlint") rule is that limit maximum ten(、) count of sentence.
 
