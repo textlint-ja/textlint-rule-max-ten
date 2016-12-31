@@ -37,7 +37,7 @@ function addPositions(base, relative) {
  * @param {RuleContext} context
  * @param {object} [options]
  */
-export default function (context, options = {}) {
+module.exports = function(context, options = {}) {
     const maxLen = options.max || defaultOptions.max;
     const isStrict = options.strict || defaultOptions.strict;
     let helper = new RuleHelper(context);

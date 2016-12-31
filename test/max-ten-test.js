@@ -1,4 +1,4 @@
-import rule from "../src/max-ten"
+const rule = require("../src/max-ten");
 function textIncludeTen(count) {
     return (new Array(count + 1)).join("テスト文章において、") + "です";
 }
