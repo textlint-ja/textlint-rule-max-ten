@@ -8,8 +8,9 @@
   "email": "azuciao@gmail.com",
   "homepage": "https://github.com/textlint-ja/textlint-rule-max-ten",
   "keywords": [
+    "japanese",
     "textlint",
-    "japanese"
+    "textlintrule"
   ],
   "license": "MIT",
   "bugs": {
