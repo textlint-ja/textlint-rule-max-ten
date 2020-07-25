@@ -73,7 +73,7 @@ module.exports = function(context, options = {}) {
                     tokens.forEach((token, index) => {
                         let surface = token.surface_form;
                         if (surface === "、") {
-                            // 名詞に過去まわれている場合は例外とする
+                            // 名詞に囲まわれている場合は例外とする
                             let isSandwiched = isSandwichedMeishi({
                                 before: tokens[index - 1],
                                 token: token,
