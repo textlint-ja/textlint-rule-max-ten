@@ -66,6 +66,19 @@ tester.run("max-ten", rule, {
             }
         },
         {
+            text: `これは，これは，これは。これは，これは，これは，`,
+            errors: [
+                {
+                    message: `一つの文で"，"を3つ以上使用しています`,
+                    index: 23
+                }
+            ],
+            options: {
+                touten: "，",
+                kuten: "．"
+            }
+        },
+        {
             text: textIncludeTen(5),
             options: {
                 max: 5
