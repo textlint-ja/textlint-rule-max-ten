@@ -4,7 +4,6 @@ import { RuleHelper } from "textlint-rule-helper";
 import { getTokenizer } from "kuromojin";
 import { splitAST, Syntax as SentenceSyntax } from "sentence-splitter";
 import { StringSource } from "textlint-util-to-string";
-import { SeparatorParser } from "sentence-splitter/lib/parser/SeparatorParser";
 
 const defaultOptions = {
     // 1文に利用できる最大の、の数
