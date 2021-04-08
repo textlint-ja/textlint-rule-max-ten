@@ -30,9 +30,13 @@
     "build": "textlint-scripts build",
     "watch": "textlint-scripts build --watch",
     "prepublish": "npm run --if-present build",
-    "test": "textlint-scripts test"
+    "test": "textlint-scripts test",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "prepare": "git config --local core.hooksPath .githook"
   },
   "devDependencies": {
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
     "textlint-scripts": "^3.0.0"
   },
   "dependencies": {
@@ -41,5 +45,16 @@
     "structured-source": "^3.0.2",
     "textlint-rule-helper": "^2.0.0",
     "textlint-util-to-string": "^3.1.1"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "printWidth": 120,
+    "tabWidth": 4,
+    "trailingComma": "none"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write"
+    ]
   }
 }
