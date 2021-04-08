@@ -1,9 +1,11 @@
-const rule = require("../src/max-ten");
+import TextLintTester from "textlint-tester";
+import rule from "../src/max-ten";
+
 function textIncludeTen(count) {
-    return (new Array(count + 1)).join("テスト文章において、") + "です";
+    return new Array(count + 1).join("テスト文章において、") + "です";
 }
-var TextLintTester = require("textlint-tester");
-var tester = new TextLintTester();
+
+const tester = new TextLintTester();
 // ruleName, rule, expected[]
 tester.run("max-ten", rule, {
     // default max:3
@@ -17,19 +19,31 @@ tester.run("max-ten", rule, {
         {
             text: textIncludeTen(5 - 1),
             options: {
-                "max": 5
+                max: 5
             }
         },
         {
             text: "これは、テストです。"
+        },
+        {
+            text: "これは、これは、これは、これは、オプションでカウントされないのでOK",
+            options: {
+                touten: "，",
+                kuten: "．"
+            }
+        },
+        {
+            text: `これは，これは．これは，これは．`,
+            options: {
+                touten: "，",
+                kuten: "．"
+            }
         }
-
     ],
     invalid: [
         {
             text: `これは、これは、これは
-、d`
-            ,
+、d`,
             errors: [
                 {
                     message: `一つの文で"、"を3つ以上使用しています`,
@@ -39,9 +53,35 @@ tester.run("max-ten", rule, {
             ]
         },
         {
+            text: `これは，これは，これは，これは。`,
+            errors: [
+                {
+                    message: `一つの文で"，"を3つ以上使用しています`,
+                    index: 11
+                }
+            ],
+            options: {
+                touten: "，",
+                kuten: "．"
+            }
+        },
+        {
+            text: `これは，これは，これは。これは，これは，これは，`,
+            errors: [
+                {
+                    message: `一つの文で"，"を3つ以上使用しています`,
+                    index: 23
+                }
+            ],
+            options: {
+                touten: "，",
+                kuten: "．"
+            }
+        },
+        {
             text: textIncludeTen(5),
             options: {
-                "max": 5
+                max: 5
             },
             errors: [
                 {
@@ -52,7 +92,7 @@ tester.run("max-ten", rule, {
         {
             text: `これは、長文の例ですが、columnがちゃんと計算、されてるはずです。`,
             options: {
-                "max": 3
+                max: 3
             },
             errors: [
                 {
@@ -65,7 +105,7 @@ tester.run("max-ten", rule, {
         {
             text: "間に、Str以外の`code`Nodeが、あっても、OK",
             options: {
-                "max": 3
+                max: 3
             },
             errors: [
                 {
@@ -78,7 +118,7 @@ tester.run("max-ten", rule, {
         {
             text: `複数のセンテンスがある場合。これでも、columnが、ちゃんと計算、されているはずです。`,
             options: {
-                "max": 3
+                max: 3
             },
             errors: [
                 {
@@ -91,7 +131,7 @@ tester.run("max-ten", rule, {
         {
             text: `複数のセンテンスがあって、改行されている場合でも\n大丈夫です。これでも、lineとcolumnが、ちゃんと計算、されているはずです。`,
             options: {
-                "max": 3
+                max: 3
             },
             errors: [
                 {
