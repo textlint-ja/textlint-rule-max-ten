@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/textlint-ja/textlint-rule-max-ten/issues"
   },
-  "version": "2.0.4",
+  "version": "3.0.0",
   "description": "textlint rule that limit maxinum ten(、) count of sentence.",
   "main": "lib/max-ten.js",
   "files": [
