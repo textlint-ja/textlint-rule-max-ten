@@ -10,14 +10,14 @@ const tester = new TextLintTester();
 tester.run("max-ten", rule, {
     // default max:3
     valid: [
-        "名詞、名詞、名詞、名詞の場合は例外",
+        "名詞、名詞、名詞、名詞、名詞の場合は例外",
         "ビスケットの主な材料は(1)小麦粉、(2)牛乳、(3)ショートニング、(4)バター、(5)砂糖である。",
         "これは、TaskA、TaskB、TaskC、TaskDが処理するものです。",
         {
-            text: textIncludeTen(3 - 1)
+            text: textIncludeTen(3)
         },
         {
-            text: textIncludeTen(5 - 1),
+            text: textIncludeTen(5),
             options: {
                 max: 5
             }
@@ -33,7 +33,7 @@ tester.run("max-ten", rule, {
             }
         },
         {
-            text: `これは，これは．これは，これは．`,
+            text: `これは，これは．これは，これは，これは．`,
             options: {
                 touten: "，",
                 kuten: "．"
@@ -42,22 +42,20 @@ tester.run("max-ten", rule, {
     ],
     invalid: [
         {
-            text: `これは、これは、これは
-、d`,
+            text: `これは、これは、これは、これは、これはだめ。`,
             errors: [
                 {
-                    message: `一つの文で"、"を3つ以上使用しています`,
-                    line: 2,
-                    column: 1
+                    message: `一つの文で"、"を4つ以上使用しています`,
+                    index: 15
                 }
             ]
         },
         {
-            text: `これは，これは，これは，これは。`,
+            text: `これは，これは，これは，これは，これは。`,
             errors: [
                 {
-                    message: `一つの文で"，"を3つ以上使用しています`,
-                    index: 11
+                    message: `一つの文で"，"を4つ以上使用しています`,
+                    index: 15
                 }
             ],
             options: {
@@ -66,11 +64,11 @@ tester.run("max-ten", rule, {
             }
         },
         {
-            text: `これは，これは，これは。これは，これは，これは，`,
+            text: `これは，これは，これは。これは，これは，これは，どうですか?`,
             errors: [
                 {
-                    message: `一つの文で"，"を3つ以上使用しています`,
-                    index: 23
+                    message: `一つの文で"，"を4つ以上使用しています`,
+                    index: 19
                 }
             ],
             options: {
@@ -79,20 +77,20 @@ tester.run("max-ten", rule, {
             }
         },
         {
-            text: textIncludeTen(5),
+            text: textIncludeTen(6),
             options: {
                 max: 5
             },
             errors: [
                 {
-                    message: `一つの文で"、"を5つ以上使用しています`
+                    message: `一つの文で"、"を6つ以上使用しています`
                 }
             ]
         },
         {
             text: `これは、長文の例ですが、columnがちゃんと計算、されてるはずです。`,
             options: {
-                max: 3
+                max: 2
             },
             errors: [
                 {
@@ -103,41 +101,41 @@ tester.run("max-ten", rule, {
             ]
         },
         {
-            text: "間に、Str以外の`code`Nodeが、あっても、OK",
+            text: "間に、Str以外の`code`Nodeが、あっても、OKと、聞いています。",
             options: {
                 max: 3
             },
             errors: [
                 {
-                    message: `一つの文で"、"を3つ以上使用しています`,
+                    message: `一つの文で"、"を4つ以上使用しています`,
                     line: 1,
-                    column: 26
+                    column: 30
                 }
             ]
         },
         {
-            text: `複数のセンテンスがある場合。これでも、columnが、ちゃんと計算、されているはずです。`,
+            text: `複数のセンテンスがある場合。これでも、columnが、ちゃんと計算、されているはず、そのためのテキストです。`,
             options: {
                 max: 3
             },
             errors: [
                 {
-                    message: `一つの文で"、"を3つ以上使用しています`,
+                    message: `一つの文で"、"を4つ以上使用しています`,
                     line: 1,
-                    column: 34
+                    column: 42
                 }
             ]
         },
         {
-            text: `複数のセンテンスがあって、改行されている場合でも\n大丈夫です。これでも、lineとcolumnが、ちゃんと計算、されているはずです。`,
+            text: `複数のセンテンスがあって、改行されている場合でも\n大丈夫です。これでも、lineとcolumnが、ちゃんと計算、されているはず、そのためのテキストです。`,
             options: {
                 max: 3
             },
             errors: [
                 {
-                    message: `一つの文で"、"を3つ以上使用しています`,
+                    message: `一つの文で"、"を4つ以上使用しています`,
                     line: 2,
-                    column: 31
+                    column: 39
                 }
             ]
         }

@@ -87,16 +87,16 @@ module.exports = function (context, options = {}) {
                             currentTenCount++;
                             lastToken = token;
                         }
-                        if (surface === "。") {
+                        if (surface === kuten) {
                             // reset
                             currentTenCount = 0;
                         }
                         // report
-                        if (currentTenCount >= maxLen) {
+                        if (currentTenCount > maxLen) {
                             const positionInSentence = source.originalIndexFromIndex(lastToken.word_position - 1);
                             const index = sentence.range[0] + positionInSentence;
                             const ruleError = new context.RuleError(
-                                `一つの文で"${touten}"を${maxLen}つ以上使用しています`,
+                                `一つの文で"${touten}"を${maxLen + 1}つ以上使用しています`,
                                 {
                                     index
                                 }
