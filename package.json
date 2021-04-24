@@ -40,7 +40,7 @@
     "textlint-scripts": "^3.0.0"
   },
   "dependencies": {
-    "kuromojin": "^2.1.1",
+    "kuromojin": "^3.0.0",
     "sentence-splitter": "^3.2.0",
     "structured-source": "^3.0.2",
     "textlint-rule-helper": "^2.0.0",
