@@ -26,6 +26,45 @@ function isSandwichedMeishi({ before, token, after }) {
 }
 
 /**
+ * 括弧のトークンかどうか
+ * @param token
+ * @returns {boolean}
+ */
+function is括弧(token) {
+    if (token.pos === "記号" && /^括弧/.test(token.pos_detail_1)) {
+        return true;
+    }
+    if (token.surface_form === "(" || token.surface_form === ")") {
+        return true;
+    }
+    return false;
+}
+/**
+ * 括弧などの記号的なTokenはスキップとして隣接するTokenを探す
+ * @see https://github.com/textlint-ja/textlint-rule-max-ten/issues/12
+ * @param {*[]} tokens
+ * @param {number} currentIndex
+ * @param {"prev"|"next"} direction
+ * @returns {undefined | *}
+ */
+function findSiblingMeaningToken({ tokens, currentIndex, direction }) {
+    const delta = direction === "prev" ? -1 : 1;
+    const sibilingToken = tokens[currentIndex + delta];
+    if (!sibilingToken) {
+        return;
+    }
+    // 括弧はスキップして、隣接Nodeを探す
+    if (is括弧(sibilingToken)) {
+        return findSiblingMeaningToken({
+            tokens,
+            currentIndex: currentIndex + delta,
+            direction
+        });
+    }
+    return sibilingToken;
+}
+
+/**
  * @param {RuleContext} context
  * @param {typeof defaultOptions} [options]
  */
@@ -76,9 +115,17 @@ module.exports = function (context, options = {}) {
                         if (surface === touten) {
                             // 名詞に囲まわれている場合は例外とする
                             const isSandwiched = isSandwichedMeishi({
-                                before: tokens[index - 1],
+                                before: findSiblingMeaningToken({
+                                    tokens,
+                                    currentIndex: index,
+                                    direction: "prev"
+                                }),
                                 token: token,
-                                after: tokens[index + 1]
+                                after: findSiblingMeaningToken({
+                                    tokens,
+                                    currentIndex: index,
+                                    direction: "next"
+                                })
                             });
                             // strictなら例外を例外としない
                             if (!isStrict && isSandwiched) {
