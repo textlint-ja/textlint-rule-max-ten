@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import TextLintTester from "textlint-tester";
 import rule from "../src/max-ten";
 
@@ -115,6 +117,7 @@ tester.run("max-ten", rule, {
         },
         {
             text: `複数のセンテンスがある場合。これでも、columnが、ちゃんと計算、されているはず、そのためのテキストです。`,
+            //                                                                        ^ 42
             options: {
                 max: 3
             },
@@ -136,6 +139,23 @@ tester.run("max-ten", rule, {
                     message: `一つの文で"、"を4つ以上使用しています`,
                     line: 2,
                     column: 39
+                }
+            ]
+        },
+        // multiple paragraph
+        {
+            // 3行目が、の問題
+            text: `このパラグラフはOKです。
+                        
+変数の名前は、半角のアルファベットであるAからZ（大文字）とaからz（小文字）、_（アンダースコア）、$（ダラー）、数字の0から9を組み合わせた名前にします。
+
+3つめのパラグラフはもOKです。
+
+`,
+            errors: [
+                {
+                    message: '一つの文で"、"を4つ以上使用しています',
+                    line: 3
                 }
             ]
         }

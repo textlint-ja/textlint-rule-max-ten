@@ -94,7 +94,9 @@ module.exports = function (context, options = {}) {
                         // report
                         if (currentTenCount > maxLen) {
                             const positionInSentence = source.originalIndexFromIndex(lastToken.word_position - 1);
-                            const index = sentence.range[0] + positionInSentence;
+                            // relative index from Paragraph Node
+                            // Sentence start(relative) + word position(relative)
+                            const index = sentence.range[0] - node.range[0] + positionInSentence;
                             const ruleError = new context.RuleError(
                                 `一つの文で"${touten}"を${maxLen + 1}つ以上使用しています`,
                                 {
