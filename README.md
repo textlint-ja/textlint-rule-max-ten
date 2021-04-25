@@ -61,6 +61,10 @@
 
 `<名詞>`、`<名詞>` のように名詞に挟まれた読点はカウントしません。 箇条書きとしての区切り文字として使われているため無視します。
 
+`<名詞>(A)、<名詞>(B)、<名詞>(C)` のように名詞を説明する括弧が`、`に隣接するケースも、名詞に挟まれた読点としてカウントしません。
+
+- [X(A)、Y(B)、Z(C) のパターン · Issue #12 · textlint-ja/textlint-rule-max-ten](https://github.com/textlint-ja/textlint-rule-max-ten/issues/12)
+
 ## Tests
 
     npm test
