@@ -103,58 +103,58 @@ module.exports = function (context, options = {}) {
              2. sentence to tokens
              3. check tokens
              */
-            return sentences.forEach((sentence) => {
+            const checkSentence = async (sentence) => {
                 const source = new StringSource(sentence);
                 const text = source.toString();
-                tokenize(text).then((tokens) => {
-                    let currentTenCount = 0;
-                    let lastToken = null;
-                    tokens.forEach((token, index) => {
-                        const surface = token.surface_form;
-                        if (surface === touten) {
-                            // 名詞に囲まわれている場合は例外とする
-                            const isSandwiched = isSandwichedMeishi({
-                                before: findSiblingMeaningToken({
-                                    tokens,
-                                    currentIndex: index,
-                                    direction: "prev"
-                                }),
-                                token: token,
-                                after: findSiblingMeaningToken({
-                                    tokens,
-                                    currentIndex: index,
-                                    direction: "next"
-                                })
-                            });
-                            // strictなら例外を例外としない
-                            if (!isStrict && isSandwiched) {
-                                return;
+                const tokens = await tokenize(text);
+                let currentTenCount = 0;
+                let lastToken = null;
+                tokens.forEach((token, index) => {
+                    const surface = token.surface_form;
+                    if (surface === touten) {
+                        // 名詞に囲まわれている場合は例外とする
+                        const isSandwiched = isSandwichedMeishi({
+                            before: findSiblingMeaningToken({
+                                tokens,
+                                currentIndex: index,
+                                direction: "prev"
+                            }),
+                            token: token,
+                            after: findSiblingMeaningToken({
+                                tokens,
+                                currentIndex: index,
+                                direction: "next"
+                            })
+                        });
+                        // strictなら例外を例外としない
+                        if (!isStrict && isSandwiched) {
+                            return;
+                        }
+                        currentTenCount++;
+                        lastToken = token;
+                    }
+                    if (surface === kuten) {
+                        // reset
+                        currentTenCount = 0;
+                    }
+                    // report
+                    if (currentTenCount > maxLen) {
+                        const positionInSentence = source.originalIndexFromIndex(lastToken.word_position - 1);
+                        // relative index from Paragraph Node
+                        // Sentence start(relative) + word position(relative)
+                        const index = sentence.range[0] - node.range[0] + positionInSentence;
+                        const ruleError = new context.RuleError(
+                            `一つの文で"${touten}"を${maxLen + 1}つ以上使用しています`,
+                            {
+                                index
                             }
-                            currentTenCount++;
-                            lastToken = token;
-                        }
-                        if (surface === kuten) {
-                            // reset
-                            currentTenCount = 0;
-                        }
-                        // report
-                        if (currentTenCount > maxLen) {
-                            const positionInSentence = source.originalIndexFromIndex(lastToken.word_position - 1);
-                            // relative index from Paragraph Node
-                            // Sentence start(relative) + word position(relative)
-                            const index = sentence.range[0] - node.range[0] + positionInSentence;
-                            const ruleError = new context.RuleError(
-                                `一つの文で"${touten}"を${maxLen + 1}つ以上使用しています`,
-                                {
-                                    index
-                                }
-                            );
-                            report(node, ruleError);
-                            currentTenCount = 0;
-                        }
-                    });
+                        );
+                        report(node, ruleError);
+                        currentTenCount = 0;
+                    }
                 });
-            });
+            };
+            return Promise.all(sentences.map(checkSentence));
         }
     };
 };
