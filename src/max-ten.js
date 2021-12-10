@@ -1,7 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import { RuleHelper } from "textlint-rule-helper";
-import { getTokenizer } from "kuromojin";
+import { tokenize } from "kuromojin";
 import { splitAST, Syntax as SentenceSyntax } from "sentence-splitter";
 import { StringSource } from "textlint-util-to-string";
 
@@ -103,11 +103,10 @@ module.exports = function (context, options = {}) {
              2. sentence to tokens
              3. check tokens
              */
-            return getTokenizer().then((tokenizer) => {
-                sentences.forEach((sentence) => {
-                    const source = new StringSource(sentence);
-                    const text = source.toString();
-                    const tokens = tokenizer.tokenizeForSentence(text);
+            return sentences.forEach((sentence) => {
+                const source = new StringSource(sentence);
+                const text = source.toString();
+                tokenize(text).then((tokens) => {
                     let currentTenCount = 0;
                     let lastToken = null;
                     tokens.forEach((token, index) => {
