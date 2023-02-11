@@ -39,6 +39,7 @@ function is括弧(token) {
     }
     return false;
 }
+
 /**
  * 括弧などの記号的なTokenはスキップとして隣接するTokenを探す
  * @see https://github.com/textlint-ja/textlint-rule-max-ten/issues/12
@@ -75,6 +76,12 @@ module.exports = function (context, options = {}) {
     const kuten = options.kuten ?? defaultOptions.kuten;
     const helper = new RuleHelper(context);
     const { Syntax, RuleError, report, getSource } = context;
+    const separatorCharacters = [
+        "?", // question mark
+        "!", //  exclamation mark
+        "？", // (ja) zenkaku question mark
+        "！" // (ja) zenkaku exclamation mark
+    ].concat(kuten);
     return {
         [Syntax.Paragraph](node) {
             if (helper.isChildNode(node, [Syntax.BlockQuote])) {
@@ -82,12 +89,7 @@ module.exports = function (context, options = {}) {
             }
             const resultNode = splitAST(node, {
                 SeparatorParser: {
-                    separatorCharacters: [
-                        "?", // question mark
-                        "!", //  exclamation mark
-                        "？", // (ja) zenkaku question mark
-                        "！" // (ja) zenkaku exclamation mark
-                    ].concat(kuten)
+                    separatorCharacters: separatorCharacters
                 }
             });
             const sentences = resultNode.children.filter((childNode) => childNode.type === SentenceSyntax.Sentence);
@@ -104,7 +106,13 @@ module.exports = function (context, options = {}) {
              3. check tokens
              */
             const checkSentence = async (sentence) => {
-                const source = new StringSource(sentence);
+                const source = new StringSource(sentence, {
+                    replacer({ node, maskValue }) {
+                        if (node.type === Syntax.Code) {
+                            return maskValue("_");
+                        }
+                    }
+                });
                 const text = source.toString();
                 const tokens = await tokenize(text);
                 let currentTenCount = 0;
@@ -133,7 +141,7 @@ module.exports = function (context, options = {}) {
                         currentTenCount++;
                         lastToken = token;
                     }
-                    if (surface === kuten) {
+                    if (separatorCharacters.includes(surface)) {
                         // reset
                         currentTenCount = 0;
                     }

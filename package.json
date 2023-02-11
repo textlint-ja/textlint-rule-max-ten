@@ -42,9 +42,8 @@
   "dependencies": {
     "kuromojin": "^3.0.0",
     "sentence-splitter": "^3.2.0",
-    "structured-source": "^3.0.2",
-    "textlint-rule-helper": "^2.0.0",
-    "textlint-util-to-string": "^3.1.1"
+    "textlint-rule-helper": "^2.3.0",
+    "textlint-util-to-string": "^3.3.0"
   },
   "prettier": {
     "singleQuote": false,
