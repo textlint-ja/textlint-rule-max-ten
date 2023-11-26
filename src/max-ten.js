@@ -2,7 +2,7 @@
 "use strict";
 import { RuleHelper } from "textlint-rule-helper";
 import { tokenize } from "kuromojin";
-import { splitAST, Syntax as SentenceSyntax } from "sentence-splitter";
+import { splitAST, SentenceSplitterSyntax as SentenceSyntax } from "sentence-splitter";
 import { StringSource } from "textlint-util-to-string";
 
 const defaultOptions = {
@@ -66,8 +66,9 @@ function findSiblingMeaningToken({ tokens, currentIndex, direction }) {
 }
 
 /**
- * @param {RuleContext} context
+ * @param {import("@textlint/types").TextlintRuleContext} context
  * @param {typeof defaultOptions} [options]
+ * @return {import("@textlint/types").TextlintFilterRuleReportHandler}}
  */
 module.exports = function (context, options = {}) {
     const maxLen = options.max ?? defaultOptions.max;
@@ -75,7 +76,7 @@ module.exports = function (context, options = {}) {
     const touten = options.touten ?? defaultOptions.touten;
     const kuten = options.kuten ?? defaultOptions.kuten;
     const helper = new RuleHelper(context);
-    const { Syntax, RuleError, report, getSource } = context;
+    const { Syntax, RuleError, report, locator } = context;
     const separatorCharacters = [
         "?", // question mark
         "!", //  exclamation mark
@@ -154,7 +155,7 @@ module.exports = function (context, options = {}) {
                         const ruleError = new context.RuleError(
                             `一つの文で"${touten}"を${maxLen + 1}つ以上使用しています`,
                             {
-                                index
+                                padding: locator.range([index, index + touten.length])
                             }
                         );
                         report(node, ruleError);
