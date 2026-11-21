@@ -42,9 +42,9 @@
   },
   "dependencies": {
     "kuromojin": "^3.1.0",
-    "sentence-splitter": "^5.0.0",
-    "textlint-rule-helper": "^2.3.1",
-    "textlint-util-to-string": "^3.3.4"
+    "sentence-splitter": "^5.1.0",
+    "textlint-rule-helper": "^2.6.0",
+    "textlint-util-to-string": "^3.3.5"
   },
   "prettier": {
     "singleQuote": false,
